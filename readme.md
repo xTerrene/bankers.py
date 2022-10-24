@@ -4,7 +4,7 @@
 
 # Welcome to Bankers.py!
 
-Bankers is a card game made by Earth while brainstorming stupidity (until otherwise found). Bankers **.py** is a text-based version of this card game coded in Python 3, because Earth had nothing better to do on a Sunday night.
+Bankers is a card game made by Earth while brainstorming stupidity (until otherwise found). Bankers<b><i>.py</i></b> is a text-based version of this card game coded in Python 3, because Earth had nothing better to do on a Sunday night.
 
 This README will introduce to you the proper setup for the Python file, as well as provide a how-to guide on playing the game! There is also a how-to-play tutorial in the game proper, if you really need it.
 
