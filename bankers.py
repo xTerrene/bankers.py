@@ -110,12 +110,12 @@ def MakeDirChoice(Path):
 
 try:
     if System == "Windows":
-        GamePath = os.getenv('appdata') + "\\Bankers.py"
+        GamePath = os.getenv('appdata') + "\\Bankers.py\\"
         if not os.path.exists(GamePath):
             print(f"{c.y}[ATTN]:{c.e} No Bankers.py directory found!")
             CanSave = MakeDirChoice(GamePath)
     elif System == "Linux":
-        GamePath = os.getenv('HOME') + "/Bankers.py"
+        GamePath = os.getenv('HOME') + "/Bankers.py/"
         if not os.path.exists(GamePath):
             print(f"{c.y}[ATTN]:{c.e} No Bankers.py directory found!")
             CanSave = MakeDirChoice(GamePath)
@@ -192,10 +192,7 @@ def NewGame():
         }
     else: # Endless
         CurrentGameData['Wallet'] == infinity
-    print(f'''Initial deck is: {len(CurrentGameData["InitialDeck"])}.''')
-    CurrentGameData['CurrentDeck'] = CurrentGameData['InitialDeck']
-    print(f'''Set Current Deck: {len(CurrentGameData["CurrentDeck"])}.''')
-    print(f'''Initial deck is now: {len(CurrentGameData["InitialDeck"])}.''')
+    CurrentGameData['CurrentDeck'] = CurrentGameData['InitialDeck'].copy()
     CurrentGameData['PlayerHandMax'] = 2
     CurrentGameData['HouseHandMax'] = 1
     CurrentGameData['CurrentBet'] = 0
@@ -210,7 +207,7 @@ print(f'''╔══════════════════════�
 ║    {c.c}| |_/ / (_| | | | |   <  __/ |  \__ \_| |_) | |_| |{c.e}    ║
 ║    {c.c}\____/ \__,_|_| |_|_|\_\___|_|  |___(_) .__/ \__, |{c.e}    ║
 ║    {c.c}                                      | |     __/ |{c.e}    ║
-║    {c.c}Alpha v0.2                            |_|    |___/ {c.e}    ║
+║    {c.c}Beta v1.0                            |_|    |___/ {c.e}     ║
 ╚═══════════════════════════════════════════════════════════╝''')
 print()
 print(f'''{c.y}Welcome to{c.e} Bankers.py{c.y}!{c.e}''')
@@ -248,87 +245,51 @@ def PlayGame():
             
             # Card selection
             Matched = False
-            Origin = CurrentGameData["CurrentDeck"]
+            Origin = CurrentGameData["CurrentDeck"].copy()
             while not Matched:
                 if not len(CurrentGameData["CurrentDeck"]) == 0 and not CurrentGameData["Wallet"] == 0:
                     if CurrentGameData["HouseHandMax"] == 1:
-                        try:
-                            CurrentGameData['HouseCard'] = CurrentGameData["CurrentDeck"].pop(random(len(Origin)))
-                            Origin = CurrentGameData["CurrentDeck"]
-                            print(f'''Initial deck is: {len(CurrentGameData["InitialDeck"])}.''')
-                            print(f'''Current deck is: {len(CurrentGameData["CurrentDeck"])}.''')
-                            print(f'''Origin is: {len(Origin)}.''')
-                        except IndexError:
-                            print(f'''{c.r}[FATAL]:{c.e} House couldn't get a card! (at line 256)''')
-                            print(f'''Current deck length: {len(CurrentGameData["CurrentDeck"])}''')
-                            print(f'''Current Origin length: {len(Origin)}''')
-                            exit()
-                        Origin = CurrentGameData["CurrentDeck"]
+                        CurrentGameData['HouseCard'] = CurrentGameData["CurrentDeck"].pop(random(len(Origin)))
+                        Origin = CurrentGameData["CurrentDeck"].copy()
                         print(f'''The House puts down {CurrentGameData["HouseCard"]}''')
                         if CurrentGameData["HouseCard"] == CurrentGameData["PlacedCard"]:
                             print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
                             print()
                             CurrentGameData['CurrentBet'] = 0
-                            print(f'''Current deck pre-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                            print(f'''Initial deck pre-reset: {len(CurrentGameData["InitialDeck"])}''')
-                            CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck']
-                            print(f'''Current deck post-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                            print(f'''Initial deck post-reset: {len(CurrentGameData["InitialDeck"])}''')
-                            Origin = CurrentGameData["CurrentDeck"]
-                            print(len(Origin))
+                            CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
+                            Origin = CurrentGameData["CurrentDeck"].copy()
                             CurrentGameData["HouseCard"] = None
                             CurrentGameData["PlacedCard"] = None
                             CurrentGameData["CurrentHand"] = []
                             Matched = True
                     else:
+
                         for i in range(CurrentGameData["HouseHandMax"]):
                             CurrentGameData["HouseCard"] = []
-                            try:
-                                CurrentGameData["HouseCard"].append(CurrentGameData["CurrentDeck"].pop(random(len(Origin))))
-                                Origin = CurrentGameData["CurrentDeck"]
-                                print(f'''Initial deck is: {len(CurrentGameData["InitialDeck"])}.''')
-                                print(f'''Current deck is: {len(CurrentGameData["CurrentDeck"])}.''')
-                                print(f'''Origin is: {len(Origin)}.''')
-                            except IndexError:
-                                print(f'''{c.r}[FATAL]:{c.e} House couldn't get a card! (at line 284)''')
-                                print(f'''Current deck length: {len(CurrentGameData["CurrentDeck"])}''')
-                                print(f'''Current Origin length: {len(Origin)}''')
-                                exit()
-                            Origin = CurrentGameData["CurrentDeck"]
+                            CurrentGameData["HouseCard"].append(CurrentGameData["CurrentDeck"].pop(random(len(Origin))))
+                            Origin = CurrentGameData["CurrentDeck"].copy()
                             print(f'''The House put down {CurrentGameData["HouseCard"]}''')
+
                             for i in range(len(CurrentGameData["HouseCard"])):
                                 if CurrentGameData["HouseCard"][i] == CurrentGameData["PlacedCard"]:
                                     print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
                                     print()
                                     CurrentGameData['CurrentBet'] = 0
-                                    print(f'''Current deck pre-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                                    print(f'''Initial deck pre-reset: {len(CurrentGameData["InitialDeck"])}''')
-                                    CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck']
-                                    print(f'''Current deck post-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                                    print(f'''Initial deck post-reset: {len(CurrentGameData["InitialDeck"])}''')
-                                    Origin = CurrentGameData["CurrentDeck"]
-                                    print(len(Origin))
+                                    CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
+                                    Origin = CurrentGameData["CurrentDeck"].copy()
                                     CurrentGameData["HouseCard"] = None
                                     CurrentGameData["PlacedCard"] = None
                                     CurrentGameData["CurrentHand"] = []
                                     Matched = True
-                    for i in range((CurrentGameData["PlayerHandMax"] - len(CurrentGameData["CurrentHand"]))):
-                        try:
-                            CurrentGameData["CurrentHand"].append(CurrentGameData["CurrentDeck"].pop(random(len(Origin))))
-                            Origin = CurrentGameData["CurrentDeck"]
-                            print(f'''Initial deck is: {len(CurrentGameData["InitialDeck"])}.''')
-                            print(f'''Current deck is: {len(CurrentGameData["CurrentDeck"])}.''')
-                            print(f'''Origin is: {len(Origin)}.''')
-                        except IndexError:
-                            print(f'''{c.r}[FATAL]:{c.e} Something went wrong when getting a card!''')
-                            print(f'''Current deck length: {len(CurrentGameData["CurrentDeck"])}''')
-                            print(f'''Current Origin length: {len(Origin)}''')
-                            exit()
 
+                    for i in range((CurrentGameData["PlayerHandMax"] - len(CurrentGameData["CurrentHand"]))):
+                        CurrentGameData["CurrentHand"].append(CurrentGameData["CurrentDeck"].pop(random(len(Origin))))
+                        Origin = CurrentGameData["CurrentDeck"].copy()
 
                     while True:
                         if Matched:
                             break
+
                         try:
                             print('Your hand:')
                             print(*CurrentGameData["CurrentHand"],sep=", ")
@@ -342,13 +303,8 @@ def PlayGame():
                                     print(f'''{c.g}Match!{c.m} Here's your payout!{c.e}''')
                                     print()
                                     CurrentGameData['Wallet'] = CurrentGameData['Wallet'] + (CurrentGameData["CurrentBet"] * 2)
-                                    print(f'''Current deck pre-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                                    print(f'''Initial deck pre-reset: {len(CurrentGameData["InitialDeck"])}''')
-                                    CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck']
-                                    print(f'''Current deck post-reset: {len(CurrentGameData["CurrentDeck"])}''')
-                                    print(f'''Initial deck post-reset: {len(CurrentGameData["InitialDeck"])}''')
-                                    Origin = CurrentGameData["CurrentDeck"]
-                                    print(len(Origin))
+                                    CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
+                                    Origin = CurrentGameData["CurrentDeck"].copy()
                                     CurrentGameData["HouseCard"] = None
                                     CurrentGameData["PlacedCard"] = None
                                     CurrentGameData["CurrentHand"] = []
@@ -379,13 +335,13 @@ def PlayGame():
                             CurrentGameData["CurrentDeck"].remove(CurrentGameData["HouseCard"][i])
                     for i in CurrentGameData["CurrentHand"]:
                         CurrentGameData["CurrentDeck"].remove(CurrentGameData["CurrentHand"][i])
-                elif CurrentGameData["Wallet"] == 0:
+                elif CurrentGameData["Wallet"] == 0 and CurrentGameData["CurrentBet"] == 0:
                     print()
                     print(f'''{c.r} ______                __                         __   
-        |   __ \.---.-..-----.|  |--..----..--.--..-----.|  |_ 
-        |   __ <|  _  ||     ||    < |   _||  |  ||  _  ||   _|
-        |______/|___._||__|__||__|__||__|  |_____||   __||____|
-                                                |__|{c.e}''')
+|   __ \.---.-..-----.|  |--..----..--.--..-----.|  |_ 
+|   __ <|  _  ||     ||    < |   _||  |  ||  _  ||   _|
+|______/|___._||__|__||__|__||__|  |_____||   __||____|
+                                            |__|{c.e}''')
                     print()
                     print(f'''{c.o}Your money ran out!{c.e}''')
                     while True:
@@ -400,6 +356,7 @@ def PlayGame():
                         except InvalidResponseError as e:
                             print(str(e.response) + " " + str(e))
                             continue
+                
                 
         except KeyboardInterrupt:
             print(f'{c.r}[ATTN:]{c.e} Bankers.py detected a keyboard interrupt exit (Ctrl+C)!')
