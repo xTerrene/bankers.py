@@ -51,10 +51,14 @@ It's recommended you [open an issue](https://github.com/EarthToAccess/bankers.py
 
 The changelog here has some special denotations for its additions/removals/and so on. Additions will be marked with "+"; removals, "-"; notes, "~"; changes/fixes, ">".
 
-## Latest - Alpha v0.2
+## Latest - Beta v1.0
 
-\+ Proper menu structures! We now have "working" menus, stylized and all! Not that the game is functioning yet but it's the thought that counts I guess
+\+ THE GAME. The game is now playable in full! [Open an issue](https://github.com/EarthToAccess/bankers.py/issues) if you find any bugs!  
+~ And on that note; there's a known bug involving betting all-in and letting your wallet hit 0 off a bet. A workaround is being found; for now, make sure when you make a bet that you don't bet your total wallet amount.  
+~ Also, saving/loading is NOT implemented properly yet. You'll get screamed at that things are disabled. Working on it.
 
 ## Previous
 
-### None yet!
+### Alpha v0.2
+
+\+ Proper menu structures! We now have "working" menus, stylized and all! Not that the game is functioning yet but it's the thought that counts I guess
