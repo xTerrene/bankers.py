@@ -10,6 +10,17 @@ from tkinter import N
 
 now = datetime.now()
 CanSave = None
+EndlessBlurbs = [
+    "Great play!",
+    "An amazing display.",
+    "May the cards be ever in your favor!",
+    "Heart of the cards!",
+    "You didn't stack the deck, did you?",
+    "Now try Standard!",
+    "A real ace up the sleeve!",
+    "Jack of all trades!",
+    "Talk about a wild card!"
+]
 
 # Classes and Exceptions
 
@@ -80,6 +91,7 @@ class OutOfRangeError(Exception):
 System = platform.system()
 
 def MakeDirChoice(Path):
+    SavingDisabled = False
     while True:
         try:
             MakeDirectory = input(f"{c.y}Would you like to create it now?{c.b} [Y/n] {c.e}")
@@ -114,11 +126,13 @@ try:
         if not os.path.exists(GamePath):
             print(f"{c.y}[ATTN]:{c.e} No Bankers.py directory found!")
             CanSave = MakeDirChoice(GamePath)
+            not CanSave
     elif System == "Linux":
         GamePath = os.getenv('HOME') + "/Bankers.py/"
         if not os.path.exists(GamePath):
             print(f"{c.y}[ATTN]:{c.e} No Bankers.py directory found!")
             CanSave = MakeDirChoice(GamePath)
+            not CanSave
     else:
         raise UnsupportedError
 except UnsupportedError:
@@ -167,8 +181,8 @@ def LoadGame():
         try:
             with open(GamePath + 'save.dat', 'rb') as DataFile:
                 values = struct.unpack('i'*len(CurrentGameData), DataFile.read())
-            for i, v in CurrentGameData.items():
-                CurrentGameData[i] = v
+                for i, v in CurrentGameData.items():
+                    CurrentGameData[i] = v
         except:
             print(f'{c.r}[FATAL]:{c.e} Something went wrong when loading! To avoid more problems, Bankers.py will now quit.')
         finally:
@@ -219,29 +233,29 @@ def PlayGame():
             # Make your bet
             if CurrentGameData['WalletType'] == "Standard":
                 print(f"{c.g}Wallet: {CurrentGameData['Wallet']}{c.e}")
-            while True:
-                try:
-                    print(f'''{c.c}How much would you like to bet? {c.m}(Type P to pause. Minimum bet: 1){c.e}''')
-                    BetAmount = input(">> ")
-                    if BetAmount.isnumeric() and (1 <= int(BetAmount) <= CurrentGameData['Wallet']):
-                        CurrentGameData['CurrentBet'] = int(BetAmount)
-                        CurrentGameData['Wallet'] = CurrentGameData['Wallet'] - int(BetAmount)
+                while True:
+                    try:
+                        print(f'''{c.c}How much would you like to bet? {c.m}(Type P to pause. Minimum bet: 1){c.e}''')
+                        BetAmount = input(">> ")
+                        if BetAmount.isnumeric() and (1 <= int(BetAmount) <= CurrentGameData['Wallet']):
+                            CurrentGameData['CurrentBet'] = int(BetAmount)
+                            CurrentGameData['Wallet'] = CurrentGameData['Wallet'] - int(BetAmount)
+                            print()
+                            break
+                        elif BetAmount.isnumeric() and not (1 <= int(BetAmount) <= CurrentGameData['Wallet']):
+                            raise OutOfRangeError(1,CurrentGameData['Wallet'],int(BetAmount))
+                        elif BetAmount.lower() == "p":
+                            pass
+                        else:
+                            raise NotANumberError(BetAmount)
+                    except OutOfRangeError as e:
                         print()
-                        break
-                    elif BetAmount.isnumeric() and not (1 <= int(BetAmount) <= CurrentGameData['Wallet']):
-                        raise OutOfRangeError(1,CurrentGameData['Wallet'],int(BetAmount))
-                    elif BetAmount.lower() == "p":
-                        pass
-                    else:
-                        raise NotANumberError(BetAmount)
-                except OutOfRangeError as e:
-                    print()
-                    print(str(e.val) + " " + str(e))
-                    continue
-                except NotANumberError as e:
-                    print()
-                    print(str(e.response) + " " + str(e))
-                    continue
+                        print(str(e.val) + " " + str(e))
+                        continue
+                    except NotANumberError as e:
+                        print()
+                        print(str(e.response) + " " + str(e))
+                        continue
             
             # Card selection
             Matched = False
@@ -253,7 +267,10 @@ def PlayGame():
                         Origin = CurrentGameData["CurrentDeck"].copy()
                         print(f'''The House puts down {CurrentGameData["HouseCard"]}''')
                         if CurrentGameData["HouseCard"] == CurrentGameData["PlacedCard"]:
-                            print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
+                            if CurrentGameData["WalletType"] == "Standard":
+                                print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
+                            else:
+                                print(f'''{c.r}Match!{c.e} Better luck next time.''')
                             print()
                             CurrentGameData['CurrentBet'] = 0
                             CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
@@ -272,7 +289,10 @@ def PlayGame():
 
                             for i in range(len(CurrentGameData["HouseCard"])):
                                 if CurrentGameData["HouseCard"][i] == CurrentGameData["PlacedCard"]:
-                                    print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
+                                    if CurrentGameData["WalletType"] == "Standard":
+                                        print(f'''{c.r}Match!{c.e} You lost the bet this time...''')
+                                    else:
+                                        print(f'''{c.r}Match!{c.e} Better luck next time.''')
                                     print()
                                     CurrentGameData['CurrentBet'] = 0
                                     CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
@@ -300,7 +320,10 @@ def PlayGame():
                                 print()
                                 CurrentGameData["PlacedCard"] = CurrentGameData["CurrentHand"].pop(int(CardChoice) - 1)
                                 if CurrentGameData["PlacedCard"] == CurrentGameData["HouseCard"] or CurrentGameData["PlacedCard"] in CurrentGameData["HouseCard"]:
-                                    print(f'''{c.g}Match!{c.m} Here's your payout!{c.e}''')
+                                    if CurrentGameData["WalletType"] == "Standard":
+                                        print(f'''{c.g}Match!{c.m} Here's your payout!{c.e}''')
+                                    else:
+                                        print(f'''{c.g}Match!{c.m} {EndlessBlurbs[random(len(EndlessBlurbs))]}{c.e}''')
                                     print()
                                     CurrentGameData['Wallet'] = CurrentGameData['Wallet'] + (CurrentGameData["CurrentBet"] * 2)
                                     CurrentGameData["CurrentDeck"] = CurrentGameData['InitialDeck'].copy()
@@ -407,10 +430,12 @@ def ConfigureGame():
                             break
                         elif WalletType.lower() == "s":
                             CurrentGameData['WalletType'] = "Standard"
+                            break
                         #elif WalletType.lower() == "d":
                         #    CurrentGameData['WalletType'] = "Denominations"
                         elif WalletType.lower() == "e":
                             CurrentGameData['WalletType'] = "Endless"
+                            break
                         else:
                             raise InvalidResponseError(WalletType)
                     except InvalidResponseError as e:
