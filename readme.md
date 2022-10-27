@@ -51,13 +51,18 @@ It's recommended you [open an issue](https://github.com/EarthToAccess/bankers.py
 
 The changelog here has some special denotations for its additions/removals/and so on. Additions will be marked with "+"; removals, "-"; notes, "~"; changes/fixes, ">".
 
-## Latest - Beta v1.0
+## Latest - Beta v1.1
+
+\+ Added proper support for Endless Mode via special blurbs and proper dialog! No more asking for bets, just get straight into the game!  
+\> Fixed an issue with the Configuration menu where changing Wallet Type wouldn't actually return up a level like it should've. Now, changing your Wallet Type will bring you back to the Configuration menu properly.  
+
+## Previous
+
+### Beta v1.0
 
 \+ THE GAME. The game is now playable in full! [Open an issue](https://github.com/EarthToAccess/bankers.py/issues) if you find any bugs!  
 ~ And on that note; there's a known bug involving betting all-in and letting your wallet hit 0 off a bet. A workaround is being found; for now, make sure when you make a bet that you don't bet your total wallet amount.  
 ~ Also, saving/loading is NOT implemented properly yet. You'll get screamed at that things are disabled. Working on it.
-
-## Previous
 
 ### Alpha v0.2
 
