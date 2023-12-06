@@ -4,7 +4,8 @@
 
 # Welcome to Bankers.py!
 
-Bankers is a card game made by Earth while brainstorming stupidity (until otherwise found). Bankers<b><i>.py</i></b> is a text-based version of this card game coded in Python 3, because Earth had nothing better to do on a Sunday night.
+Bankers is a card game made by Terra while trying to think up a stupid little game. It may or may not be original.  
+Bankers<b><i>.py</i></b> is a text-based version of this card game coded in Python 3, because Terra had literally nothing better to do on a Sunday night.
 
 This README will introduce to you the proper setup for the Python file, as well as provide a how-to guide on playing the game! There is also a how-to-play tutorial in the game proper, if you really need it.
 
@@ -20,20 +21,23 @@ Installing and setting up Bankers.py is fairly straightforward! Most of the game
 
 1) The game will initially ask to set up its folders and files for easy configuration, as well as providing savedata. You can choose to ignore this, but will lose access to achievements and saving.
     - On Windows, this will save to your `AppData\Roaming` folder under "Bankers.py".
-    - On Linux, this will save to a "Bankers.py" folder in your Home directory.
+    - On Linux, this will save to a `.Bankers.py` folder in your Home directory.
 2) The game will then, within its own directory, create an achievements file. It may also create a save file if you choose to save your game's progress.
 
-Otherwise, the actual install and running is easy; ensure you have Python installed on a Windows machine -- at least 3.8.10 -- and you're on your way!
+Otherwise, the actual install and running is easy; ensure you have Python installed on a Windows machine -- at least 3.8.10 for it to work guaranteed -- and you're on your way!
 
 # Playing the game
 
 ## How to play Bankers
 
-Bankers, in this iteration, is a solo game of you versus the House. You'll start with $1000, and you will bet on exactly how likely it is you'll match your card to the House before it matches to you.
+Bankers, in this iteration, is a solo game of you versus the House. You'll start with $1000, and you will bet on how likely it is you'll match your card to the House before it matches to you.
 
-You'll be prompted to make your bet of up to 3/4ths your current wallet (e.g. if you have $1000, you can only bet as high at $750). Once you've done that, you'll be given two cards out of a standard 52-card deck. Then, the House will reveal its card. Choose a card from your hand; if it matches the card the House revealed, you've won! Collect your bet doubled. 
+You'll be prompted to make your bet of up to 3/4ths your current wallet (e.g. if you have $1000, you can only bet as high at $750). Once you've done that, you'll be given two cards out of a standard 52-card deck. Then, the House will reveal its card. You'll then choose a card from your hand to play; 
 
-If it doesn't, the House will reveal another card. If the House matches the card you played, you lose your bet! If it doesn't, play continues as it did prior.
+- If it matches the card the House revealed, you've won! You're paid your bet times two.
+- If it doesn't, the House will reveal another card; If the House matches the card you played, you lose your bet.
+
+After either scenario, you're asked again for a bet, and play restarts.
 
 ## Configuring Bankers.py
 
@@ -45,7 +49,7 @@ Configuration can be done from the Main Menu before loading in the game. Current
 
 # Contributing
 
-It's recommended you [open an issue](https://github.com/EarthToAccess/bankers.py/issues), as problems may be fixed, features may be planned, and so on and so forth behind the scenes. Opening an issue also makes issues, features, and so on easier to track. Pull requests will be ignored; if you open an issue and your bug gets fixed/feature gets added, you'll be added to the game's credits on exit.
+It's recommended you [open an issue](https://github.com/xTerrene/bankers.py/issues), as problems may be fixed, features may be planned, and so on and so forth behind the scenes. Opening an issue also makes issues, features, and so on easier to track. Pull requests will be ignored; if you open an issue and your bug gets fixed/feature gets added, you'll be added to the game's credits on exit.
 
 # Changelog
 
